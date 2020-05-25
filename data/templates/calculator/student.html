@@ -1,0 +1,14 @@
+{% extends "calculator/wizard_template.html" %}
+{% load i18n %}
+{% block title_wizard %}
+    Добавление студета
+{% endblock %}
+{% block form_wizard %}
+    {% include "calculator/input_field.html" with f=wizard.form.quantity %}
+
+{% endblock %}
+{% block button_wizard %}
+    <button type="submit" class="btn btn-primary">
+        <i class="icon-user icon-white"></i> Контракт <i class="icon-arrow-right icon-white"></i>
+    </button>
+{% endblock %}

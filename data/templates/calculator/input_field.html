@@ -1,0 +1,11 @@
+<div class="control-group {% if f.errors %}error{% endif %}">
+    <label class="control-label" for="{{f.id_for_label}}">{{ f.label|capfirst }}</label>
+    <div class="controls">
+        {{f}}
+        <span class="help-inline">
+            {% for error in f.errors %}
+                {{ error|escape }}
+            {% endfor %}
+        </span>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+{% extends 'head.html' %}
+{% load static %}
+{% block index %}
+
+    <!-- Body main wrapper start -->
+
+
+            <form method="get" >
+                {{ ElementsForm.as_table }}
+                {% csrf_token %}
+
+                <input type="submit" value="Показать расписание">
+
+             </form>
+    <div class="container">
+        <div class="table-content table-responsive">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Form</th>
+                        <th><a href='/calculator/test/'>Calculate</a></th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                {% for element in calculator.main.values %}
+                <form method="get" >
+                {% for el in ParametersForm %}
+
+
+
+                {% if forloop.counter == 1  %}
+
+                <tr class="cart-subtotal">
+                    <td rowspan="{{forloop.revcounter}}">{{element.name}}<input type="text" value="{{element.id}}" name="quantity"></td>
+                    <th>{{el}} </th>
+                    <th rowspan="{{forloop.revcounter}}" ><a href='{% url "calculator:calculator_remove"  id="main" element_id=element.id%}'><input type="submit" value="Показать расписание" name="print_btn"></a></th>
+                    <td rowspan="{{forloop.revcounter}}" class="product-remove"><a href='{% url "calculator:calculator_remove"  id="main" element_id=element.id%}'>X</a></td>
+                </tr>
+                    {% else %}
+                <tr class="cart-subtotal">
+                         <th> {{el}}</th>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                    </form>
+
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+<div class="container">
+<div class="table-content table-responsive">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Process</th>
+                        <th>Productivity</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for process, productivity in calculator.process.items %}
+                <tr class="cart-subtotal">
+                    <td>{{ process}} </td>
+                    <td>{{ productivity.hours }}</td>
+                    <td class="product-remove"><a href='{% url "calculator:calculator_remove"  id="process" element_id=productivity.id.id %}'>X</a></td>
+
+               </tr>{% endfor %}
+                </tbody>
+
+            </table></div></div>
+<div class="container">
+<div class="table-content table-responsive">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th class="product-thumbnail">Image</th>
+                        <th class="product-name">Material</th>
+                        <th class="product-price">Price</th>
+                        <th class="product-quantity">Quantity</th>
+                        <th class="product-subtotal">Total</th>
+                        <th class="product-remove">Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for item in calculator.norms.items %}
+                <tr class="cart-subtotal">
+                    <td class="product-thumbnail">
+                        <a href="#">
+                            <img src="
+                                {% if item.1.materials.image %}
+                                    {{ item.1.materials.image.url }}
+                                {% else %}
+                                    {% static "img/no_image.png" %}
+                                {% endif %}">
+                        </a>
+                     </td>
+                    <td class="product-name"><a href="#">{{ item.1.materials.name  }}</a></td>
+                    <td class="product-price"><span class="amount">${{ item.1.materials.price }}</span></td>
+                    <td class="product-quantity"><input type="number" value= {{ item.1.quantity}} /></td>
+                    <td class="product-subtotal">${{ item.1.total}}</td>
+                    <td class="product-remove"><a href='{% url "calculator:calculator_remove"  id="product" element_id=item.1.materials.id %}'>X</a></td>
+
+
+
+                </tr>{% endfor %}
+
+                </tbody>
+
+            </table></div></div>
+
+   {% endblock %}

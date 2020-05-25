@@ -1,0 +1,39 @@
+{% extends "test.html" %}
+{% load static %}
+ <script src="{% static 'plaster/js/vendor/jquery-1.12.0.min.js' %}"></script>
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+        <div class='category-heading'>
+          <h3>  <a href='{% url "shop:product_list" %}'>Browse Categories</a></h3>
+        </div>
+         <div class="category-menu-list">
+            <ul>
+                {% for c in categories %}
+                <li><a href="{{ c.get_absolute_url }}"><img alt="" src="{% static 'plaster/images/icons/thum2.png' %}"> {{ c.name }}<i class="zmdi zmdi-chevron-right"></i></a>
+                    <div class="category-menu-dropdown">
+                        <div title='category'>
+                            {% for first in c.firstproducts.all %}
+                            <div title = 'element' class="category-part-1 category-common mb--30">
+
+                                <h4 class="categories-subtitle"> {{ first.name}}</h4>
+                               <ul>
+                                      {% for second in first.secondproducts.all %}
+                                    <li><a href="{{ second.get_absolute_url }}">{{ second.name }}</a></li>
+
+                                    {% endfor %}
+                                </ul>
+
+                            </div>
+
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+         </div>
+{% endblock %}

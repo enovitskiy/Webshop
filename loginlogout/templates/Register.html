@@ -1,0 +1,19 @@
+
+
+<form action="/log/in/" class="login" method="post">
+    {% csrf_token %}
+    <label>login</label>
+    <input name="login" type="text"><br>
+    <label>password</label>
+    <input name="password" type="password"><br>
+    <div class="tabs__checkbox">
+        <input type="checkbox">
+        <span> Remember me</span>
+        <span class="forget"><a href="#">Forget Pasword?</a></span>
+    </div>
+    <div class="htc__login__btn mt--30">
+        <a href="/log/in/">Login</a>
+        <input type="submit" value="Login">
+    </div>
+
+</form>

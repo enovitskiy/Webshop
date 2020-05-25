@@ -1,0 +1,22 @@
+{% extends "calculator/wizard_template.html" %}
+
+{% block title_wizard %}
+    Контракт студента
+{% endblock %}
+{% block form_wizard %}
+    {% if ok == 'True' %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Отлично!</strong>
+            Форма добавления ФИО студента верно заполнена.
+        </div>
+    {% endif %}
+    {% include "calculator/input_field.html" with f=wizard.form.num1 %}
+    {% include "calculator/input_field.html" with f=wizard.form.num2 %}
+{% endblock %}
+{% block button_wizard %}
+    <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">
+        <i class="icon-user icon-white"></i> ФИО студента <i class="icon-arrow-left icon-white"></i>
+    </button>
+    <input type="submit" class="btn btn-primary" value="Сохранить"/>
+{% endblock %}

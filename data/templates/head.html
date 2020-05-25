@@ -1,0 +1,59 @@
+<!doctype html>
+{% load static %}
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Tmart-Minimalist eCommerce HTML5 Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'plaster/images/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- All css files are included here. -->
+    <!-- Bootstrap fremwork main css -->
+    <link rel="stylesheet" href="{% static 'plaster/css/bootstrap.min.css' %}">
+    <!-- Owl Carousel main css -->
+    <link rel="stylesheet" href="{% static 'plaster/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plaster/css/owl.theme.default.min.css' %}">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" href="{% static 'plaster/css/core.css' %}">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" href="{% static 'plaster/css/shortcode/shortcodes.css' %}">
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="{% static 'plaster/style.css' %}">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="{% static 'plaster/css/responsive.css' %}">
+    <!-- User style -->
+    <link rel="stylesheet" href="{% static 'plaster/css/custom.css' %}">
+
+
+    <!-- Modernizr JS -->
+    <script src="{% static 'plaster/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+
+    <script src="{% static 'plaster/js/vendor/jquery-1.12.0.min.js' %}"></script>
+</head>
+
+<body>
+    {% block index %}
+    {% endblock %}
+    <!-- END QUICKVIEW PRODUCT -->
+    <!-- Placed js at the end of the document so the pages load faster -->
+
+    <!-- jquery latest version -->
+
+    <!-- Bootstrap framework js -->
+    <script src="{% static 'plaster/js/bootstrap.min.js' %}"></script>
+    <!-- All js plugins included in this file. -->
+    <script src="{% static 'plaster/js/plugins.js' %}"></script>
+    <script src="{% static 'plaster/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'plaster/js/owl.carousel.min.js' %}"></script>
+    <!-- Waypoints.min.js. -->
+    <script src="{% static 'plaster/js/waypoints.min.js' %}"></script>
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    <script src="{% static 'plaster/js/main.js' %}"></script>
+
+</body>
+</html>

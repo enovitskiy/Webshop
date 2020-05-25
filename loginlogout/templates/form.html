@@ -1,0 +1,120 @@
+{% extends 'login-register.html' %}
+{% load static %}
+
+{% block form %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <ul class="login__register__menu" role="tablist">
+            <li id ='login' role="presentation" class="login active"><a href="#" role="tab" data-toggle="tab">Login</a></li>
+            <li id ='register' role="presentation" class="register"><a  href="#" role="tab" data-toggle="tab">Register</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="htc__login__register__wrap">
+            <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade in active">
+                <form class="login" method="post">
+                    {% csrf_token %}
+                   <div id='logform'>
+                      <label>login:</label>
+                      {{ form.login.errors }}
+                      {{ form.login }}
+                      <label >password:</label>
+                      {{ form.password.errors }}
+                      {{ form.password }}
+                    </div>
+                    <div id= 'email' style = "display: none;" >
+                      <label >email:</label>
+                      {{ form.email.errors }}
+                      {{ form.email }}
+                    </div>
+                     <div class="tabs__checkbox">
+
+                        <span class="forget"><a>{{user}}</a></span>
+                     {{ form.remember.errors }}
+                         {{ form.remember }}
+                         <span >Log/in/out</span>
+
+                <input id= 'log' class="btn btn-primary solid blank" type="submit" value="Login"/>
+                </form>
+                <div class="htc__social__connect">
+                    <h2>Or Login With</h2>
+                    <ul class="htc__soaial__list">
+                        <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+
+                        <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                        <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                        <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#id_remember").click( function(){
+    if ($('#id_remember').is(":checked")) {
+    $("#log").attr('value', 'Logout');
+    } else{
+    $("#log").attr('value', 'Login');
+    }
+    })
+
+    $("ul.login__register__menu li:first").click( function(){
+    $("#email").hide();$("#log").attr('value', 'Login');
+
+    })
+    $("ul.login__register__menu li:last").click( function(){
+    $("#email").show();$("#log").attr('value', 'Register');
+    })
+</script>
+<script>
+
+
+
+    $("#log").click( function(){
+     let arr = {csrfmiddlewaretoken:document.getElementsByName('csrfmiddlewaretoken')[0].value}
+    $(":input.form-control").each(function(){
+    arr[$(this).attr('name')]=$(this).val();
+    })
+    if ($('#id_remember').is(":checked")) {
+    $.ajax({url:'/log/out/',
+                    error: function () {
+                    alert('Ошибка получения запроса')
+                    },
+                    success: function () {location.reload();
+                    } })
+
+
+
+
+    }else{$.ajax({url:'/log/out/'});
+    $.ajax({url:'/log/reg/',
+                    type: 'post',
+                    data: arr,
+                    dataType : "json",
+                    error: function () {
+                    alert('Ошибка получения запроса');
+                    location.reload();
+                    },
+                    success: function (arr) {
+                    if (arr.is_login) {location.reload();
+
+
+                    } else{
+                    $("#email").show();
+                    $("#log").attr('value', 'Register');
+                    $("ul.login__register__menu li:first").removeClass("login active");
+                    $("ul.login__register__menu li:last").addClass("login active");
+                    }}});
+                    }
+    })
+</script>
+
+
+{% endblock %}
+

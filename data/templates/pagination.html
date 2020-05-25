@@ -1,0 +1,19 @@
+{% load shop_tags %}
+{% total_products_search filter as add_users_flag %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}&{{ filterrequest.urlencode }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ page.number }} of {{ page.paginator.num_pages }}.
+        </span>
+        {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}&{{ filterrequest.urlencode }}">Next</a>
+        {% endif %}
+    </span>
+    <div class="shp__pro__show">
+        <span> Showing {{ lqty }} -  {% if add_users_flag > uqty %} {{ uqty }} {% else %} {% total_products_search filter %} {% endif %} of {% total_products_search filter %}
+            results {{ add_users_flag }} </span>
+    </div>
+</div>

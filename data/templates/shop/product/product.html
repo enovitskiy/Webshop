@@ -1,0 +1,89 @@
+{% load static %}
+    <div class="product-images">
+        <div class="main-image images">
+            <div class="product-detail">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+            </div>
+         </div>
+    </div>
+
+    <div class="product-info">
+
+    <h1>{{ product.name }}</h1>
+     <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+        <div class="rating__and__review">
+            <ul class="rating">
+                <li><span class="ti-star"></span></li>
+                <li><span class="ti-star"></span></li>
+                <li><span class="ti-star"></span></li>
+                <li><span class="ti-star"></span></li>
+                <li><span class="ti-star"></span></li>
+            </ul>
+            <div class="review">
+                <a href="#">4 customer reviews</a>
+            </div>
+        </div>
+         <div title="CartBacket" class="cart">
+              <h1>Your shopping cart</h1>
+                    {% with total_items=cart|length %}
+                        {% if cart|length > 0 %}
+                            Your cart:
+                            <a href="{% url "cart:cart_detail" %}">
+                                {{ total_items }} item{{ total_items|pluralize }},
+                                ${{ cart.get_total_price }}
+                            </a>
+                        {% else %}
+                            Your cart is empty.
+                        {% endif %}
+                    {% endwith %}
+         </div>
+        <div class="price-box-3">
+            <div class="s-price-box">
+                <span class="new-price">${{ product.price }}</span>
+                <span class="old-price">$45.00</span>
+            </div>
+        </div>
+        <div class="quick-desc">
+            {{ product.description|linebreaks }}
+        </div>
+         <div class="addtocart-btn">
+             <form  title='AddToChart' method="post" id='{% url "cart:cart_add" product.id %}'>
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <input id= 'Add_to_chart' value="Add to cart" class="btn btn-primary solid blank">
+             </form>
+        </div>
+    </div>
+
+<script>
+  $("#Add_to_chart").click( function() {
+   let arr = {csrfmiddlewaretoken:document.getElementsByName('csrfmiddlewaretoken')[0].value}
+
+    $(":input[title='AddToCart']").each(function(){
+    arr[$(this).attr('name')]=$(this).val();
+    })
+            var href = $('form[title=AddToChart]').attr('id');
+            console.log(arr);
+            $.ajax({url:href,
+                   type: 'post',
+                    data: arr,
+
+                    success: function (data) {
+
+                    $.ajax({url:'/cart/contextbacket/',
+                    success: function (data) {
+
+                         $("div[title='CartBacket']").html(data)
+                    }});
+
+                    }});
+
+        })
+
+  $("#Add_to_chart").click( function() {
+
+         })
+
+</script>
+
+<!--action="{% url "cart:cart_add" product.id %}" type="submit" alert('Вы добавили товар');-->

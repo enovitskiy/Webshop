@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}My shop{% endblock %}</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+</head>
+<body>
+<div id="header">
+    <a href="/">My shop</a>
+</div>
+<div id="subheader">
+   <div class="cart">
+    {% with total_items=cart|length %}
+        {% if cart|length > 0 %}
+            Your cart:
+            <a href="{% url "cart:cart_detail" %}">
+                {{ total_items }} item{{ total_items|pluralize }},
+                ${{ cart.get_total_price }}
+            </a>
+        {% else %}
+            Your cart is empty.
+        {% endif %}
+    {% endwith %}
+    </div>
+</div>
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+<div id="header">
+    <span class="logo">Bookmarks</span>
+    {% if request.user.is_authenticated %}
+        <ul class="menu">
+            <li {% if section == 'dashboard' %}class="selected"{% endif %}>
+            <a href="{% url  'dashboard' %}">My dashboard</a>
+            </li>
+            <li {% if section == 'images' %}class="selected"{% endif %}>
+            <a href="#">Images</a>
+            </li>
+            <li {% if section == 'people' %}class="selected"{% endif %}>
+                <a href="#">People</a>
+            </li>
+        </ul>
+    {% endif %}
+    <span class="user">
+        {% if request.user.is_authenticated %}
+            Hello {{ request.user.first_name }},
+            <a href="{% url "logout" %}">Logout</a>
+        {% else %}
+            <a href="{% url "login" %}">Log-in</a>
+        {% endif %}
+    </span>
+</div>
+</body>
+</html>

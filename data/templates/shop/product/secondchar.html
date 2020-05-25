@@ -1,0 +1,208 @@
+<script>
+
+   $('document').ready( function(){
+   $("div[title='category']:odd").each(function() {
+    $(this).addClass("category-menu-dropdown-left");
+    $("div.category-menu-dropdown-top >div[title='element']").addClass("mb--30");
+    $('div.category-menu-dropdown-bottom:odd').hide();
+    });
+
+    $("div[title='category']:even").each(function() {
+    $(this).addClass("category-menu-dropdown-top");
+
+    });
+
+
+    })
+
+</script>
+
+
+
+{% block contentnext %}
+{% for c in categories %}
+ <section class="htc__product__area bg__white">
+            <div class="container">
+                <div class="row">
+     <div class="col-md-3">
+         <div class="product-categories-all">
+
+
+            <div class='category-heading'>
+              <h3>  <a href='{% url "shop:product_list" %}'>{{ c.name }}</a></h3>
+            </div>
+            <div class="category-menu-list">
+                <ul>
+                    {% for first in c.firstproducts.all %}
+                    <li>
+                    <a title="FirstProduct" id= "{{ first.get_absolute_url }}" >{{ first.name }}<i class="zmdi zmdi-chevron-right"></i></a>
+                     <div class="category-menu-dropdown">
+                        <div title='category'>
+                            {% for second in first.secondproducts.all %}
+                            <div class="category-part-{{ forloop.counter }} category-common2">
+                                <ul> <li><a  href="#">{{ second.name }}</a></li></ul>
+                            </div>
+                            {% endfor %}
+                        </div>
+                     </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+         </div>
+     </div>
+    <div div class="col-md-9"  >
+        <div class="product-style-tab" id="FirstCategoryProduct"></div>
+    </div>
+
+                     <div class="col-md-9">
+
+
+
+                        <div class="product-style-tab">
+
+
+
+
+
+                            <div class="tab-content another-product-style jump" >
+
+                                <div class="tab-pane active" id="latest">
+
+
+                                    <div class="row">
+
+                                        <div class="product-slider-active owl-carousel">
+
+
+                                            {% for product in products %}
+
+                                            <div class="col-md-4 single__pro col-lg-4 cat--1 col-sm-4 col-xs-12" >
+
+                                                <div class="product">
+
+                                                            <div class="product__inner">
+                                                                <div class="pro__thumb">
+                                                                    <a href="#">
+                                                                        <img src="{% if product.image %}{{ product.image.url }}{% else %}
+                                                                        {% static 'plater/images/new.jpg' %}{% endif %}" alt='{{product.name}}'>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="product__hover__info">
+                                                                    <ul class="product__action">
+                                                                        <li><a data-toggle="modal"id= "{{ product.name }}" data-target="#productModal" title="Quick iew" class="quick-view modal-view detail-link" href="#"><span class="ti-plus"></span></a></li>
+                                                                        <li><a title="Add TO Cart" href="cart.html"><span class="ti-shopping-cart"></span></a></li>
+                                                                        <li><a title="Wishlist" href="wishlist.html"><span class="ti-heart"></span></a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="product__details"  >
+                                                                <h2 title= "{{ product.name }}"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h2>
+                                                                <ul class="product__price">
+                                                                    <li class="old__price">$16.00</li>
+                                                                    <li class="new__price"> ${{ product.price }}</li>
+                                                                </ul>
+                                                            </div>
+                                                </div>
+                                            </div>{% endfor %}
+                                            </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+       </div>
+            </div>
+        </section>
+
+     {% endfor %}
+<script>
+
+
+$("a[title='FirstProduct']").on('click', function () {
+            var href = $(this).attr('id');
+            console.log('Zhmetsya');
+            console.log(href);
+            $.ajax({url:href,
+                    data:{'href':href},
+                    success: function (data) {
+                    $('#FirstCategoryProduct').html(data);
+                    $("form[title='AddLine']").on('click', function () {
+                                             var href= $(this).attr('id');
+                                   let arr = {csrfmiddlewaretoken:document.getElementsByName('csrfmiddlewaretoken')[0].value,
+
+                                                                                                                        }
+                                    console.log("1");
+                                   $(this).find(':input').each(function(){ console.log("2");console.log($(this).attr('title'));
+                                    arr[$(this).attr('name')]=$(this).val();console.log(arr); console.log("3");
+                                    }); console.log("4");
+
+
+                                                 console.log(arr);
+                                                 $.ajax({url:href,
+                                           type: 'post',
+                                            data: arr,
+
+                                            success: function (data) {
+
+                                            $.ajax({url:'/cart/contextbacket/',
+                                            success: function (data) {console.log(data);
+
+                                                 $("div[title='CartBacket']").html(data)
+                                            }});
+
+                                            }});
+
+                         })
+
+                    $("a.quick-view[title='Quick View']").on('click', function () {
+            var id = $(this).attr('id');
+            var href = $("h2[title='"+id+"']>a").attr('href');
+            console.log(href)
+
+
+
+            $.ajax({url:href +'product/',
+                    data:{'href':href},
+                    success: function (data) {
+
+                    $('#productModalPet').html(data)
+                    console.log(data)
+
+                    }});
+
+
+
+        })
+
+
+
+
+                    $('.owl-carousel').owlCarousel({
+   loop:true,
+   margin:6,
+   nav:true,
+   responsive:{
+     0:{
+       items:2
+     },
+     600:{
+       items:3
+     },
+     1000:{
+       items:3
+     }
+   }
+ });
+
+
+                    }});
+        })
+
+</script>
+{% endblock %}

@@ -1,0 +1,436 @@
+{% extends 'head.html' %}
+{% load shop_tags %}
+{% load static %}
+{% block index %}
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper fixed__footer">
+        <!-- Start Header Style -->
+        {% include 'header.html' %}
+
+        <!-- End Header Style -->
+        <div class="body__overlay"></div>
+        {% include 'offset_wraper.html' %}
+        <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url({% static 'plaster/images/bg/2.jpg' %}) no-repeat scroll center center / cover ;">
+            <div class="ht__bradcaump__wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">Shop Sidebar</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="index.html">Home</a>
+                                  <span class="brd-separetor">/</span>
+                                  <span class="breadcrumb-item active">Shop Sidebar</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area --> 
+        <!-- Start Our ShopSide Area -->
+        <section class="htc__shop__sidebar bg__white ptb--120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                        <div class="htc__shop__left__sidebar">
+                            <!-- Start Range -->
+                            <div class="htc-grid-range">
+                                <h4 class="section-title-4">FILTER BY PRICE</h4>
+
+
+                                <div class="content-shopby">
+                                    <div class="price_filter s-filter clear">
+
+
+
+                                        <form action="#" method="GET">
+                                            {{ filter.form.name }}
+
+                                            <span>Price :</span>  <div class="price--output">
+                                            <input type="text" id="amount" readonly></div> <span></span>
+
+
+                                            <div id="slider"></div>
+                                            <div class="slider__range--output">
+
+                                                <div class="price__output--wrap">
+                                                    <div class="price--output">
+
+
+                                                    </div>
+                                                    {{ filter.form.price }}
+
+                                                    <div class="price--filter">
+                                                        <input type="submit" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- End Range -->
+                            <!-- Start Product Cat -->
+                            <div class="htc__shop__cat">
+                                <h4 class="section-title-4">PRODUCT CATEGORIES</h4>
+                                <ul class="sidebar__list">
+                                    {% for c in categories %}
+                                    <li><a href="{{ c.get_absolute_url }}">{{ c.name }} <span>{% total_products_category c.slug %}</span></a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <!-- End Product Cat -->
+                            <!-- Start Color Cat -->
+
+                                 <div class="htc__shop__cat">
+                             <h3 class="section-title-4">{{ category.name}}</h3>
+
+                                {% for first in firstcategories %}
+                               <div class="panel-group panel-classic" id="accordionB">
+
+                                  <div class="panel panel-default">
+                                      <div >
+                                         <h4 class="sidebar__list">
+                                           <a data-toggle="collapse" class="collapsed" data-parent="#accordionA, #accordionB" href="#collapse{{ forloop.counter }}">
+                                           {{ first.name }}</a>
+                                         </h4>
+                                      </div>{% if first.slug == opencategory  %}
+                                      <div id="collapseOne" class="panel-collapse collapse in">
+                                      {% else %}<div id="collapse{{ forloop.counter }}" class="panel-collapse collapse"> {% endif %}
+                                           <div class="panel-body">
+                                           <ul class="sidebar__list">
+                                                {% for second in first.secondproducts.all%}
+                                                <li class="black"><a href="{{ second.get_absolute_url }}"><i class="zmdi zmdi-circle"></i>{{ second.name }}<span>{% total_products_second second.slug %}</span></a></li>
+                                                {% endfor %}
+
+                                            </ul>
+                                        </div>
+                                      </div>
+                                  </div><!--/ Panel 1 end-->
+
+
+                               </div><!-- Accordion end -->{% endfor %}</div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12 smt-30">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <div class="producy__view__container">
+                                    <!-- Start Short Form -->
+                                    <div class="product__list__option">
+                                        <div class="order-single-btn">
+                                            <select class="select-color selectpicker">
+                                              <option>Sort by newness</option>
+                                              <option>Match</option>
+                                              <option>Updated</option>
+                                              <option>Title</option>
+                                              <option>Category</option>
+                                              <option>Rating</option>
+                                            </select>
+                                        </div>
+                                        {% include "pagination.html" with page=products %}
+
+                                    </div>
+                                    <!-- End Short Form -->
+                                    <!-- Start List And Grid View -->
+                                    <ul class="view__mode" role="tablist">
+                                        <li role="presentation" class="grid-view active"><a href="#grid-view" role="tab" data-toggle="tab"><i class="zmdi zmdi-grid"></i></a></li>
+                                        <li role="presentation" class="list-view"><a href="#list-view" role="tab" data-toggle="tab"><i class="zmdi zmdi-view-list"></i></a></li>
+                                    </ul>
+                                    <!-- End List And Grid View -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="shop__grid__view__wrap another-product-style">
+                                <!-- Start Single View -->
+                                <div role="tabpanel" id="grid-view" class="single-grid-view tab-pane fade in active clearfix">
+                                    <!-- Start Single Product -->
+                                    {% for product in products %}
+                                    <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                                        <div class="product">
+                                            <div class="product__inner">
+                                                <div class="pro__thumb">
+                                                    <a >
+                                                        <img src="{% if product.image %}{{ product.image.url }}{% else %}
+                                                                        {% static 'plaster/images/new.jpg' %}{% endif %}" alt="{{product.name}}">
+                                                    </a>
+                                                </div>
+                                                <div class="product__hover__info">
+                                                    <ul class="product__action">
+                                                        <li><a data-toggle="modal" id= "{{ product.name }}" data-target="#productModal" title="{{ product.get_absolute_url }}" class="quick-view modal-view detail-link" ><span class="ti-plus"></span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="product__details">
+                                                <h2><a title="{{ product.name }}" href="{{ product.get_absolute_url }}">{{ product.name }}</a></h2>
+                                                <ul class="product__price">
+                                                    <li class="old__price">$16.00</li>
+                                                    <li class="new__price"> ${{ product.price }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>{% endfor %}
+
+                                    <!-- End Single Product -->
+                                </div>
+                                <!-- End Single View -->
+                                <!-- Start Single View -->
+                                <div role="tabpanel" id="list-view" class="single-grid-view tab-pane fade clearfix">
+                                    <!-- Start List Content-->
+                                    {% for product in products %}
+                                    <div class="single__list__content clearfix">
+                                        <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
+                                            <div class="list__thumb">
+                                                <a href="product-details.html">
+                                                   <img src="{% if product.image %}{{ product.image.url }}{% else %}
+                                                  {% static 'plaster/images/new.jpg' %}{% endif %}" alt="{{product.name}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12">
+                                            <div class="list__details__inner">
+                                                <h2><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h2>
+                                                <p>{{ product.description}}</p>
+                                                <span class="product__price">${{ product.price }}</span>
+                                                <div class="shop__btn">
+                                                    <a class="htc__btn" href="cart.html"><span class="ti-shopping-cart"></span>Add to Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>{% endfor %}
+                                    <!-- End List Content-->
+                                </div>
+                                <!-- End Single View -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Our ShopSide Area -->
+        <!-- Start Footer Area -->
+        <footer class="htc__foooter__area gray-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="footer__container clearfix">
+                         <!-- Start Single Footer Widget -->
+                        <div class="col-md-3 col-lg-3 col-sm-6">
+                            <div class="ft__widget">
+                                <div class="ft__logo">
+                                    <a href="index.html">
+                                        <img src="{% static 'plaster/images/logo/logo.png' %}" alt="footer logo">
+                                    </a>
+                                </div>
+                                <div class="footer-address">
+                                    <ul>
+                                        <li>
+                                            <div class="address-icon">
+                                                <i class="zmdi zmdi-pin"></i>
+                                            </div>
+                                            <div class="address-text">
+                                                <p>194 Main Rd T, FS Rayed <br> VIC 3057, USA</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="address-icon">
+                                                <i class="zmdi zmdi-email"></i>
+                                            </div>
+                                            <div class="address-text">
+                                                <a href="#"> info@example.com</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="address-icon">
+                                                <i class="zmdi zmdi-phone-in-talk"></i>
+                                            </div>
+                                            <div class="address-text">
+                                                <p>+012 345 678 102 </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <ul class="social__icon">
+                                    <li><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                                    <li><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+                                    <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+                                    <li><a href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End Single Footer Widget -->
+                        <!-- Start Single Footer Widget -->
+                        <div class="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30">
+                            <div class="ft__widget">
+                                <h2 class="ft__title">Categories</h2>
+                                <ul class="footer-categories">
+                                    <li><a href="shop-sidebar.html">Men</a></li>
+                                    <li><a href="shop-sidebar.html">Women</a></li>
+                                    <li><a href="shop-sidebar.html">Accessories</a></li>
+                                    <li><a href="shop-sidebar.html">Shoes</a></li>
+                                    <li><a href="shop-sidebar.html">Dress</a></li>
+                                    <li><a href="shop-sidebar.html">Denim</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Start Single Footer Widget -->
+                        <div class="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30">
+                            <div class="ft__widget">
+                                <h2 class="ft__title">Infomation</h2>
+                                <ul class="footer-categories">
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="#">Returns & Exchanges</a></li>
+                                    <li><a href="#">Shipping & Delivery</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Start Single Footer Widget -->
+                        <div class="col-md-3 col-lg-3 col-lg-offset-1 col-sm-6 smt-30 xmt-30">
+                            <div class="ft__widget">
+                                <h2 class="ft__title">Newsletter</h2>
+                                <div class="newsletter__form">
+                                    <p>Subscribe to our newsletter and get 10% off your first purchase .</p>
+                                    <div class="input__box">
+                                        <div id="mc_embed_signup">
+                                            <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                                                <div id="mc_embed_signup_scroll" class="htc__news__inner">
+                                                    <div class="news__input">
+                                                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email Address" required>
+                                                    </div>
+                                                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef" tabindex="-1" value=""></div>
+                                                    <div class="clearfix subscribe__btn"><input type="submit" value="Send" name="subscribe" id="mc-embedded-subscribe" class="bst__btn btn--white__color">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>        
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Footer Widget -->
+                    </div>
+                </div>
+                <!-- Start Copyright Area -->
+                <div class="htc__copyright__area">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                            <div class="copyright__inner">
+                                <div class="copyright">
+                                    <p>© 2017 <a href="#">your website name</a>
+                                    All Right Reserved.</p>
+                                </div>
+                                <ul class="footer__menu">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="shop.html">Product</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Copyright Area -->
+            </div>
+        </footer>
+        <!-- End Footer Area -->
+    </div>
+    <!-- Body main wrapper end -->
+    <!-- QUICKVIEW PRODUCT -->
+    <div id="quickview-wrapper">
+        <!-- Modal -->
+        <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal__container" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-product" id="productModalPet">
+                            <!-- Start product images -->
+                            <div class="product-images">
+                                <div class="main-image images">
+                                    <img alt="big images" src="{% static 'plaster/images/product/sm-img/1.jpg' %}">
+                                </div>
+                            </div>
+                            <!-- end product images -->
+                            <div class="product-info" >
+                                <h1>Simple Fabric Bags</h1>
+                                <div class="rating__and__review">
+                                    <ul class="rating">
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                    </ul>
+                                    <div class="review">
+                                        <a href="#">4 customer reviews</a>
+                                    </div>
+                                </div>
+                                <div class="price-box-3">
+                                    <div class="s-price-box">
+                                        <span class="new-price">$17.20</span>
+                                        <span class="old-price">$45.00</span>
+                                    </div>
+                                </div>
+                                <div class="quick-desc">
+                                    Designed for simplicity and made from high quality materials. Its sleek geometry and material combinations creates a modern look.
+                                </div>
+                                <div class="select__color">
+                                    <h2>Select color</h2>
+                                    <ul class="color__list">
+                                        <li class="red"><a title="Red" href="#">Red</a></li>
+                                        <li class="gold"><a title="Gold" href="#">Gold</a></li>
+                                        <li class="orange"><a title="Orange" href="#">Orange</a></li>
+                                        <li class="orange"><a title="Orange" href="#">Orange</a></li>
+                                    </ul>
+                                </div>
+                                <div class="select__size">
+                                    <h2>Select size</h2>
+                                    <ul class="color__list">
+                                        <li class="l__size"><a title="L" href="#">L</a></li>
+                                        <li class="m__size"><a title="M" href="#">M</a></li>
+                                        <li class="s__size"><a title="S" href="#">S</a></li>
+                                        <li class="xl__size"><a title="XL" href="#">XL</a></li>
+                                        <li class="xxl__size"><a title="XXL" href="#">XXL</a></li>
+                                    </ul>
+                                </div>
+                                <div class="social-sharing">
+                                    <div class="widget widget_socialsharing_widget">
+                                        <h3 class="widget-title-modal">Share this product</h3>
+                                        <ul class="social-icons">
+                                            <li><a target="_blank" title="rss" href="#" class="rss social-icon"><i class="zmdi zmdi-rss"></i></a></li>
+                                            <li><a target="_blank" title="Linkedin" href="#" class="linkedin social-icon"><i class="zmdi zmdi-linkedin"></i></a></li>
+                                            <li><a target="_blank" title="Pinterest" href="#" class="pinterest social-icon"><i class="zmdi zmdi-pinterest"></i></a></li>
+                                            <li><a target="_blank" title="Tumblr" href="#" class="tumblr social-icon"><i class="zmdi zmdi-tumblr"></i></a></li>
+                                            <li><a target="_blank" title="Pinterest" href="#" class="pinterest social-icon"><i class="zmdi zmdi-pinterest"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="addtocart-btn">
+                                    <a href="#">Add to cart</a>
+                                </div>
+                            </div><!-- .product-info -->
+                        </div><!-- .modal-product -->
+                    </div><!-- .modal-body -->
+                </div><!-- .modal-content -->
+            </div><!-- .modal-dialog -->
+        </div>
+        <!-- END Modal -->
+    </div>
+<script src="{% static 'plaster/js/webshop.js' %}"></script>
+{% endblock %}

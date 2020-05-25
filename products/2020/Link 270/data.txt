@@ -1,0 +1,1 @@
+[19, '1810-000 x-tools NBS Schaumpistole ECO Metall', 'x-tools-NBS-Schaumpi', 'products/2020/Link 270/1810-000Schaumpistole_NEU.jpg', 'mit Kunststoffgriff', 12, 1, 1, '2020-04-19 01:12:34.596233', '2020-04-19 01:12:34.596283', 2, 8]
